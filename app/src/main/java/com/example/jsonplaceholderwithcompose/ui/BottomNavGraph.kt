@@ -22,7 +22,7 @@ fun BottomNavGraph(navController: NavHostController) {
         startDestination = BottomBarScreen.Post.route
     ) {
         composable(route = BottomBarScreen.Post.route) {
-            PostsScreen(postViewModel)
+            PostsScreen(postViewModel, navController)
         }
         composable(route = BottomBarScreen.Comment.route) {
             CommentScreen(commentsViewModel)

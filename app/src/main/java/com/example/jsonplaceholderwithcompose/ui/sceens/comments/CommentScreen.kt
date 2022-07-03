@@ -15,6 +15,12 @@ import com.example.jsonplaceholderwithcompose.data.remote.dto.comment.CommentsRe
 
 @Composable
 fun CommentScreen(commentsViewModel: CommentsViewModel) {
+    showComments(commentsViewModel)
+}
+
+
+@Composable
+private fun showComments(commentsViewModel: CommentsViewModel) {
     val posts = produceState<List<CommentsResponse>>(
         initialValue = emptyList(),
         producer = {
