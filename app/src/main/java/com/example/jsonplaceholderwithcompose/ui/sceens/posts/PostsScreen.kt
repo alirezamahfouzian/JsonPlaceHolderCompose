@@ -1,9 +1,10 @@
 package com.example.jsonplaceholderwithcompose.ui.sceens.posts
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
@@ -16,19 +17,21 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.jsonplaceholderwithcompose.data.remote.dto.posts.PostsResponse
 import com.example.jsonplaceholderwithcompose.ui.BottomBarScreen
+import com.example.jsonplaceholderwithcompose.ui.components.GlobalLazyColumn
 
 @Composable
 fun PostsScreen(postViewModel: PostsViewModel, navController: NavHostController) {
     Column(
+        modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        showNextPageButton(navController)
-        showPosts(postViewModel)
+        NextPageButton(navController)
+        PostsList(postViewModel)
     }
 }
 
 @Composable
-private fun showNextPageButton(navController: NavHostController) {
+private fun NextPageButton(navController: NavHostController) {
     OutlinedButton(
         onClick = {
             navController.navigate(BottomBarScreen.Post.route)
@@ -40,7 +43,7 @@ private fun showNextPageButton(navController: NavHostController) {
 
 
 @Composable
-private fun showPosts(postViewModel: PostsViewModel) {
+private fun PostsList(postViewModel: PostsViewModel) {
     val posts = produceState<List<PostsResponse>>(
         initialValue = emptyList(),
         producer = {
@@ -48,19 +51,9 @@ private fun showPosts(postViewModel: PostsViewModel) {
         }
     )
     val listState: LazyListState = rememberLazyListState()
-    LazyColumn(
-        state = listState
-    ) {
-        items(posts.value) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp)
-            ) {
-                Text(text = it.title, fontSize = 20.sp)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = it.body, fontSize = 14.sp)
-            }
-        }
+    GlobalLazyColumn(list = posts.value, state = listState) {
+        Text(text = it.title, fontSize = 20.sp)
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(text = it.body, fontSize = 14.sp)
     }
 }

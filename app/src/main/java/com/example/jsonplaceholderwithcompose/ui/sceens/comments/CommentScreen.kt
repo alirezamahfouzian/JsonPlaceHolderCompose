@@ -1,9 +1,8 @@
 package com.example.jsonplaceholderwithcompose.ui.sceens.comments
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -12,35 +11,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jsonplaceholderwithcompose.data.remote.dto.comment.CommentsResponse
+import com.example.jsonplaceholderwithcompose.ui.components.GlobalLazyColumn
 
 @Composable
 fun CommentScreen(commentsViewModel: CommentsViewModel) {
-    showComments(commentsViewModel)
+    CommentsList(commentsViewModel)
 }
 
 
 @Composable
-private fun showComments(commentsViewModel: CommentsViewModel) {
-    val posts = produceState<List<CommentsResponse>>(
+private fun CommentsList(commentsViewModel: CommentsViewModel) {
+    val comments = produceState<List<CommentsResponse>>(
         initialValue = emptyList(),
         producer = {
             value = commentsViewModel.getComments()
         }
     )
     val listState: LazyListState = rememberLazyListState()
-    LazyColumn(
-        state = listState
-    ) {
-        items(posts.value) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp)
-            ) {
-                Text(text = it.email, fontSize = 20.sp)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = it.body, fontSize = 14.sp)
-            }
-        }
+    GlobalLazyColumn(list = comments.value, state = listState) {
+        Text(text = it.email, fontSize = 20.sp)
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(text = it.body, fontSize = 14.sp)
     }
 }
