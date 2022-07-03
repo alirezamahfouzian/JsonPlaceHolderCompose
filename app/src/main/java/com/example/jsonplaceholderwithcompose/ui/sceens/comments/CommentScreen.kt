@@ -1,4 +1,4 @@
-package com.example.jsonplaceholderwithcompose.ui.sceens.posts
+package com.example.jsonplaceholderwithcompose.ui.sceens.comments
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,14 +11,14 @@ import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.jsonplaceholderwithcompose.data.remote.dto.posts.PostsResponse
+import com.example.jsonplaceholderwithcompose.data.remote.dto.comment.CommentsResponse
 
 @Composable
-fun PostsScreen(postViewModel: PostsViewModel) {
-    val posts = produceState<List<PostsResponse>>(
+fun CommentScreen(commentsViewModel: CommentsViewModel) {
+    val posts = produceState<List<CommentsResponse>>(
         initialValue = emptyList(),
         producer = {
-            value = postViewModel.getPostList()
+            value = commentsViewModel.getComments()
         }
     )
     val listState: LazyListState = rememberLazyListState()
@@ -31,7 +31,7 @@ fun PostsScreen(postViewModel: PostsViewModel) {
                     .fillMaxWidth()
                     .padding(10.dp)
             ) {
-                Text(text = it.title, fontSize = 20.sp)
+                Text(text = it.email, fontSize = 20.sp)
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(text = it.body, fontSize = 14.sp)
             }

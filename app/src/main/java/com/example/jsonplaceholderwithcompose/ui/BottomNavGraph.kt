@@ -5,14 +5,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.jsonplaceholderwithcompose.ui.sceens.AlbumsScreen
-import com.example.jsonplaceholderwithcompose.ui.sceens.CommentScreen
+import com.example.jsonplaceholderwithcompose.ui.sceens.albums.AlbumsScreen
+import com.example.jsonplaceholderwithcompose.ui.sceens.albums.AlbumsViewModel
+import com.example.jsonplaceholderwithcompose.ui.sceens.comments.CommentScreen
+import com.example.jsonplaceholderwithcompose.ui.sceens.comments.CommentsViewModel
 import com.example.jsonplaceholderwithcompose.ui.sceens.posts.PostsScreen
 import com.example.jsonplaceholderwithcompose.ui.sceens.posts.PostsViewModel
 
 @Composable
 fun BottomNavGraph(navController: NavHostController) {
     val postViewModel: PostsViewModel = hiltViewModel()
+    val commentsViewModel: CommentsViewModel = hiltViewModel()
+    val albumsViewModel: AlbumsViewModel = hiltViewModel()
     NavHost(
         navController = navController,
         startDestination = BottomBarScreen.Post.route
@@ -21,10 +25,10 @@ fun BottomNavGraph(navController: NavHostController) {
             PostsScreen(postViewModel)
         }
         composable(route = BottomBarScreen.Comment.route) {
-            CommentScreen()
+            CommentScreen(commentsViewModel)
         }
         composable(route = BottomBarScreen.Albums.route) {
-            AlbumsScreen()
+            AlbumsScreen(albumsViewModel)
         }
     }
 }
